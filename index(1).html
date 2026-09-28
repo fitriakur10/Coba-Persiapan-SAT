@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital SAT Learning Lab | Kelas 8–10</title>
+<style>
+:root{--navy:#14213d;--blue:#2563eb;--teal:#0f766e;--orange:#f59e0b;--ink:#172033;--muted:#64748b;--bg:#f4f7fb;--line:#e2e8f0;--white:#fff;--green:#15803d;--red:#b91c1c}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(125deg,#14213d,#1d4ed8);color:#fff;padding:30px max(20px,calc((100% - 1200px)/2)) 28px}
+header .eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;opacity:.8;font-weight:700}
+header h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.12;margin:9px 0 12px}
+header p{max-width:780px;margin:0;color:#e5edff}
+.wrap{max-width:1200px;margin:auto;padding:22px 18px 50px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:-2px}
+.stat,.panel,.module-card{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:0 3px 12px #0f172a08}
+.stat{padding:16px}.stat strong{display:block;font-size:1.5rem;color:var(--navy)}.stat span{font-size:.83rem;color:var(--muted)}
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:20px;margin-top:20px;align-items:start}
+.panel{padding:18px}.sidebar{position:sticky;top:12px}.panel h2,.panel h3{margin:0 0 10px;color:var(--navy)}
+.small{font-size:.88rem;color:var(--muted)}.progress{height:8px;border-radius:99px;background:#e8eef8;overflow:hidden;margin:10px 0}.progress>div{height:100%;background:linear-gradient(90deg,#0f766e,#38bdf8);width:0%;transition:width .2s}
+label{font-size:.86rem;font-weight:700;display:block;margin:14px 0 6px}
+select,input[type=search]{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:10px;background:#fff;color:var(--ink);font:inherit}
+.btn{border:0;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer;font:inherit}
+.btn.primary{background:var(--blue);color:#fff}.btn.light{background:#eff6ff;color:#1d4ed8}.btn.outline{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.filter{border:1px solid var(--line);border-radius:999px;padding:7px 12px;background:#fff;cursor:pointer;font-size:.85rem}.filter.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.module-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.module-card{padding:16px;display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:transform .15s,border .15s}.module-card:hover{transform:translateY(-2px);border-color:#93c5fd}.module-card.selected{border:2px solid var(--blue);padding:15px}.tag{display:inline-flex;align-self:flex-start;border-radius:999px;padding:3px 8px;font-size:.75rem;font-weight:700;background:#eaf2ff;color:#1d4ed8}.tag.math{background:#dcfce7;color:#166534}.tag.test{background:#ffedd5;color:#9a3412}.module-card h3{font-size:1.02rem;margin:0;color:var(--navy)}.module-card p{font-size:.87rem;color:var(--muted);margin:0;flex:1}.card-bottom{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--muted)}
+.content{min-width:0}.content-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.content-head h2{margin:4px 0;color:var(--navy);font-size:1.5rem}.content-head p{margin:0;color:var(--muted)}
+.pill{display:inline-block;border-radius:999px;padding:4px 9px;background:#f1f5f9;color:#475569;font-size:.78rem;font-weight:700}
+.section{margin-top:16px}.section h3{font-size:1.05rem;margin:0 0 10px;color:var(--navy)}
+.material-list{margin:0;padding-left:20px}.material-list li{padding:3px 0}
+.question{border:1px solid var(--line);border-radius:13px;padding:15px;margin:12px 0;background:#fff}.qtop{display:flex;justify-content:space-between;gap:10px;font-size:.8rem;color:var(--muted);margin-bottom:7px}.qtext{font-weight:600;margin-bottom:10px}.options{display:grid;gap:7px}.option{display:flex;gap:9px;align-items:flex-start;border:1px solid #dbe3ee;border-radius:9px;padding:9px 10px;cursor:pointer;font-weight:400}.option:hover{background:#f8fafc}.option input{margin-top:5px;accent-color:var(--blue)}.option.correct{border-color:#86efac;background:#f0fdf4}.option.wrong{border-color:#fca5a5;background:#fef2f2}
+.explanation{display:none;border-radius:9px;background:#f8fafc;padding:10px 12px;margin-top:10px;font-size:.88rem}.explanation.show{display:block}.explanation strong{color:var(--navy)}
+.quiz-actions{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0}.result{display:none;border-radius:12px;padding:14px;background:#eff6ff;border:1px solid #bfdbfe;margin:12px 0}.result.show{display:block}.result strong{font-size:1.2rem;color:#1d4ed8}
+.empty{padding:35px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #cbd5e1;border-radius:14px}
+footer{max-width:1200px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:.82rem}
+.resource-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.resource{padding:12px;border:1px solid var(--line);border-radius:10px}.resource a{color:var(--blue);font-weight:700;text-decoration:none}.resource a:hover{text-decoration:underline}
+.note{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px 14px;font-size:.88rem;color:#854d0e;margin-top:15px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{position:static}.stats{grid-template-columns:repeat(2,1fr)}.module-list{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.module-list,.resource-grid{grid-template-columns:1fr}.content-head{display:block}.stats{gap:8px}.stat{padding:12px}}
+@media print{header{padding:20px;background:#fff;color:#000}header p{color:#333}.sidebar,.filter-row,.quiz-actions,.btn{display:none!important}.layout{display:block}.module-list{display:none}.content{width:100%}.question{break-inside:avoid}.explanation{display:block!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Learning roadmap • kelas 8–10</div>
+  <h1>Digital SAT Learning Lab</h1>
+  <p>Modul belajar bertahap dari fondasi bahasa Inggris dan matematika hingga latihan bergaya Digital SAT. Pilih modul, pelajari materi, kerjakan simulasi, lalu periksa pembahasan dan kemajuan.</p>
+</header>
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><strong id="totalModules">30</strong><span>Modul belajar</span></div>
+    <div class="stat"><strong id="totalQuestions">90</strong><span>Soal latihan</span></div>
+    <div class="stat"><strong id="completedCount">0</strong><span>Modul tuntas</span></div>
+    <div class="stat"><strong id="overallProgress">0%</strong><span>Kemajuan keseluruhan</span></div>
+  </div>
+  <div class="layout">
+    <aside class="sidebar panel">
+      <h2>Ruang belajar</h2>
+      <p class="small">Saran: belajar 2–3 jam per minggu. Selesaikan satu modul dalam satu atau dua sesi, sesuai kebutuhan.</p>
+      <div class="progress"><div id="progressBar"></div></div>
+      <p class="small" id="progressText">Belum ada modul yang ditandai tuntas.</p>
+      <label for="gradeFilter">Pilih jenjang</label>
+      <select id="gradeFilter">
+        <option value="all">Semua jenjang</option>
+        <option value="8">Kelas 8 — Fondasi</option>
+        <option value="9">Kelas 9 — Penguatan</option>
+        <option value="10">Kelas 10 — SAT Prep</option>
+      </select>
+      <label for="typeFilter">Bidang</label>
+      <select id="typeFilter">
+        <option value="all">Semua bidang</option>
+        <option value="rw">Reading & Writing</option>
+        <option value="math">Math</option>
+        <option value="mixed">Try out / evaluasi</option>
+      </select>
+      <label for="searchBox">Cari modul</label>
+      <input id="searchBox" type="search" placeholder="Contoh: pecahan, inference...">
+      <div class="quiz-actions">
+        <button class="btn outline" id="resetProgress">Reset kemajuan</button>
+      </div>
+      <div class="note"><strong>Catatan:</strong> ini adalah bahan belajar mandiri, bukan tes resmi College Board. Skor latihan tidak dapat dikonversi langsung menjadi skor SAT 400–1600.</div>
+    </aside>
+    <main class="content">
+      <div class="panel">
+        <div class="content-head">
+          <div><span class="pill" id="listCount">30 modul</span><h2>Daftar modul</h2><p>Pilih modul untuk melihat materi dan simulasi soal.</p></div>
+        </div>
+        <div class="filter-row">
+          <button class="filter active" data-quick="all">Semua</button>
+          <button class="filter" data-quick="8">Kelas 8</button>
+          <button class="filter" data-quick="9">Kelas 9</button>
+          <button class="filter" data-quick="10">Kelas 10</button>
+        </div>
+        <div class="module-list" id="moduleList"></div>
+      </div>
+      <div class="panel section" id="moduleDetail" aria-live="polite">
+        <div class="empty"><h3>Mulai dari modul pertama</h3>Pilih kartu modul di atas untuk membuka ringkasan, target kompetensi, materi, dan soal latihan.</div>
+      </div>
+      <div class="panel section">
+        <h2>Sumber belajar gratis</h2>
+        <div class="resource-grid">
+          <div class="resource"><strong>Khan Academy</strong><p class="small">Matematika dasar dan persiapan Official Digital SAT.</p><a href="https://www.khanacademy.org/" target="_blank" rel="noopener">Buka Khan Academy ↗</a></div>
+          <div class="resource"><strong>British Council LearnEnglish</strong><p class="small">Grammar dan reading sesuai tingkat kemampuan.</p><a href="https://learnenglish.britishcouncil.org/" target="_blank" rel="noopener">Buka LearnEnglish ↗</a></div>
+          <div class="resource"><strong>Bluebook — College Board</strong><p class="small">Aplikasi tes resmi untuk mengenali format dan simulasi Digital SAT.</p><a href="https://satsuite.collegeboard.org/practice/practice-tests/bluebook" target="_blank" rel="noopener">Buka Bluebook ↗</a></div>
+          <div class="resource"><strong>SAT Student Question Bank</strong><p class="small">Soal resmi yang dapat dipilih berdasarkan domain dan kesulitan.</p><a href="https://satsuite.collegeboard.org/practice/student-question-bank" target="_blank" rel="noopener">Buka Question Bank ↗</a></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<footer>Digital SAT Learning Lab • Rancangan belajar untuk kelas 8–10 • Simpan halaman ini sebagai <code>index.html</code> dan buka dengan browser modern. Kemajuan tersimpan di browser/perangkat ini.</footer>
+<script>
+const modules = [
+{ id:1,g:8,type:"rw",title:"Kalimat dasar dan parts of speech",level:"Dasar",desc:"Mengenali susunan kalimat bahasa Inggris.",goals:["Membedakan noun, verb, adjective, dan pronoun.","Menyusun kalimat sederhana dengan subjek dan kata kerja."],topics:["Subject, verb, object","Noun, verb, adjective, pronoun","Word order: subject + verb + object"],practice:"Tulis lima kalimat tentang kegiatan sehari-hari dan tandai subject serta verb.",qs:[
+{q:"Which word is the verb in the sentence? “Maya reads every evening.”",o:["Maya","reads","every","evening"],a:1,e:"“Reads” menyatakan tindakan, sehingga merupakan verb."},
+{q:"Choose the sentence with correct word order.",o:["Enjoys Liam music.","Liam music enjoys.","Liam enjoys music.","Music Liam enjoys the."],a:2,e:"Pola dasar bahasa Inggris adalah subject + verb + object: Liam + enjoys + music."},
+{q:"In “The small dog barked,” which word is an adjective?",o:["The","small","dog","barked"],a:1,e:"“Small” menerangkan noun “dog”, jadi merupakan adjective."}]},
+{ id:2,g:8,type:"rw",title:"To be, pronouns, dan simple present",level:"Dasar",desc:"Membangun kalimat dasar dan kebiasaan sehari-hari.",goals:["Menggunakan am/is/are dan pronouns dengan benar.","Memakai simple present untuk rutinitas."],topics:["I am; he/she/it is; we/they are","Subject pronouns","Simple present dan -s untuk he/she/it"],practice:"Buat enam kalimat tentang rutinitas; periksa kesesuaian subject dan verb.",qs:[
+{q:"Choose the correct sentence.",o:["They is ready.","They are ready.","They am ready.","They be ready."],a:1,e:"“They” dipasangkan dengan “are”."},
+{q:"My brother ___ to school by bus every day.",o:["go","goes","going","gone"],a:1,e:"Simple present dengan subjek orang ketiga tunggal menggunakan verb + s/es: goes."},
+{q:"Which pronoun can replace “Sarah and I”?",o:["They","We","She","Us"],a:1,e:"“Sarah and I” adalah subjek orang pertama jamak, sehingga diganti “we”."}]},
+{ id:3,g:8,type:"math",title:"Bilangan bulat dan urutan operasi",level:"Dasar",desc:"Memperkuat ketelitian berhitung.",goals:["Mengoperasikan bilangan positif dan negatif.","Menerapkan urutan operasi dengan benar."],topics:["Penjumlahan dan pengurangan bilangan negatif","Perkalian dan pembagian tanda","Kurung, pangkat, kali/bagi, tambah/kurang"],practice:"Kerjakan soal tanpa kalkulator terlebih dahulu, lalu periksa langkahnya.",qs:[
+{q:"What is −7 + 12?",o:["−19","−5","5","19"],a:2,e:"Mulai dari −7 lalu bergerak 12 satuan ke kanan pada garis bilangan: hasilnya 5."},
+{q:"Evaluate: 3 + 4 × 2.",o:["14","11","10","7"],a:1,e:"Perkalian dikerjakan sebelum penjumlahan: 3 + 8 = 11."},
+{q:"What is (−3) × (−5)?",o:["−15","−8","8","15"],a:3,e:"Hasil perkalian dua bilangan negatif adalah positif: 15."}]},
+{ id:4,g:8,type:"math",title:"Pecahan, desimal, dan perbandingan",level:"Dasar",desc:"Dasar penting untuk rasio, persen, dan data SAT.",goals:["Menyederhanakan pecahan.","Mengubah pecahan ke desimal dan membandingkan rasio."],topics:["Pecahan senilai dan penyederhanaan","Penjumlahan pecahan","Konversi pecahan-desimal"],practice:"Buat contoh sendiri untuk pecahan senilai dan jelaskan cara menyederhanakannya.",qs:[
+{q:"Simplify 12/18.",o:["2/3","3/4","6/9","4/9"],a:0,e:"Bagi pembilang dan penyebut dengan 6: 12/18 = 2/3."},
+{q:"What is 1/4 + 1/2?",o:["2/6","2/4","3/4","1/6"],a:2,e:"Samakan penyebut: 1/4 + 2/4 = 3/4."},
+{q:"Which decimal is equal to 3/5?",o:["0.3","0.5","0.6","0.8"],a:2,e:"3 ÷ 5 = 0.6."}]},
+{ id:5,g:8,type:"math",title:"Persentase, rasio, dan proporsi",level:"Dasar",desc:"Menghitung bagian dari keseluruhan dan perbandingan.",goals:["Menghitung persentase suatu nilai.","Menyelesaikan rasio dan proporsi sederhana."],topics:["Persen sebagai per seratus","Diskon dan bagian dari keseluruhan","Rasio dan unit rate"],practice:"Buat dua soal diskon harga dan satu soal rasio resep makanan.",qs:[
+{q:"What is 20% of 60?",o:["6","12","20","30"],a:1,e:"20% = 0.20, sehingga 0.20 × 60 = 12."},
+{q:"A recipe uses 2 cups of rice for 4 people. At the same rate, how many cups are needed for 10 people?",o:["4","5","6","8"],a:1,e:"2/4 = x/10, maka x = 5 cups."},
+{q:"A $40 item is discounted by 25%. What is the sale price?",o:["$10","$25","$30","$35"],a:2,e:"Diskon = 25% × $40 = $10. Harga setelah diskon = $40 − $10 = $30."}]},
+{ id:6,g:8,type:"rw",title:"Reading: main idea dan detail",level:"Dasar",desc:"Memahami inti paragraf tanpa menerjemahkan setiap kata.",goals:["Menemukan gagasan utama.","Membedakan gagasan utama dan detail pendukung."],topics:["Skimming untuk gagasan utama","Scanning untuk detail","Menjawab berdasarkan teks"],practice:"Baca satu paragraf pendek dan ringkas gagasan utamanya dalam satu kalimat.",qs:[
+{q:"Passage: “City trees provide shade, absorb some air pollutants, and offer habitats for birds. Because of these benefits, many cities are expanding tree-planting programs.” What is the main idea?",o:["Birds live only in cities.","Trees provide benefits, so cities are planting more of them.","Air pollution cannot be reduced.","All city streets have trees."],a:1,e:"Kalimat kedua merangkum manfaat pohon dan respons kota; pilihan lain terlalu sempit atau tidak didukung."},
+{q:"According to the passage, which is one benefit of city trees?",o:["They increase traffic.","They provide shade.","They eliminate all pollution.","They prevent all storms."],a:1,e:"Teks secara langsung menyebutkan bahwa pohon memberi keteduhan."},
+{q:"Which strategy helps find a specific date in a passage?",o:["Scanning for the date","Ignoring headings","Translating every word","Reading only the last line"],a:0,e:"Scanning berarti mencari informasi spesifik, misalnya tanggal atau nama."}]},
+{ id:7,g:8,type:"rw",title:"Tenses dan subject–verb agreement",level:"Dasar",desc:"Mengenali bentuk kata kerja dan konsistensinya.",goals:["Membedakan simple present dan simple past.","Menyesuaikan verb dengan subjek."],topics:["Regular dan irregular past tense","Singular/plural subject","Konsistensi waktu"],practice:"Tulis tiga kalimat tentang kemarin dan tiga kalimat tentang kebiasaan.",qs:[
+{q:"Yesterday, the students ___ a science experiment.",o:["conduct","conducts","conducted","conducting"],a:2,e:"“Yesterday” menunjukkan masa lampau; bentuk past tense dari conduct adalah conducted."},
+{q:"Each of the books ___ a different topic.",o:["cover","covers","covering","are cover"],a:1,e:"Subjek “each” dianggap tunggal, sehingga menggunakan “covers”."},
+{q:"Choose the grammatically correct sentence.",o:["She walk to class every day.","She walks to class every day.","She walking to class every day.","She walked to class tomorrow."],a:1,e:"Untuk kebiasaan sekarang dengan subjek she, gunakan “walks”."}]},
+{ id:8,g:8,type:"math",title:"Variabel dan persamaan linear",level:"Dasar",desc:"Berpindah dari aritmetika ke aljabar.",goals:["Mengevaluasi ekspresi aljabar.","Menyelesaikan persamaan satu dan dua langkah."],topics:["Variabel dan koefisien","Substitusi nilai","Persamaan linear"],practice:"Periksa jawaban dengan memasukkan kembali nilai x ke persamaan awal.",qs:[
+{q:"If x = 4, what is 3x + 2?",o:["9","12","14","20"],a:2,e:"Substitusi x = 4: 3(4) + 2 = 14."},
+{q:"Solve: x + 7 = 15.",o:["7","8","22","105"],a:1,e:"Kurangi kedua sisi dengan 7: x = 8."},
+{q:"Solve: 3x = 21.",o:["6","7","18","24"],a:1,e:"Bagi kedua sisi dengan 3: x = 7."}]},
+{ id:9,g:8,type:"mixed",title:"Try out fondasi kelas 8",level:"Evaluasi",desc:"Pemeriksaan awal bahasa Inggris dan matematika dasar.",goals:["Mengetahui materi yang sudah dikuasai.","Menentukan topik yang perlu diulang."],topics:["Kalimat dan grammar dasar","Reading main idea","Pecahan, persen, dan persamaan"],practice:"Kerjakan tanpa melihat catatan. Catat setiap jawaban yang masih berupa tebakan.",qs:[
+{q:"Choose the correct sentence.",o:["The results is clear.","The results are clear.","The results be clear.","The results am clear."],a:1,e:"“Results” jamak, sehingga menggunakan “are”."},
+{q:"What is 15% of 80?",o:["8","10","12","15"],a:2,e:"0.15 × 80 = 12."},
+{q:"A passage mainly explains how bees pollinate flowers. What should a good summary focus on?",o:["Every word in the passage","The main process and its key details","An unrelated fact about birds","The reader's favorite flower"],a:1,e:"Ringkasan memuat ide utama dan detail penting, bukan setiap kata atau informasi tak relevan."}]},
+{ id:10,g:9,type:"rw",title:"Context clues dan kosakata akademik",level:"Menengah",desc:"Menebak makna kata berdasarkan konteks.",goals:["Menggunakan petunjuk kalimat untuk memahami kata.","Mengenali sinonim yang sesuai konteks."],topics:["Definition, contrast, example clues","Academic words: analyze, indicate, significant","Makna kontekstual"],practice:"Catat lima kata baru dari artikel dan tulis petunjuk konteks yang membantu memahami maknanya.",qs:[
+{q:"“Unlike her usually reserved brother, Lina was outspoken and readily shared her opinions.” What does “reserved” most nearly mean?",o:["Quiet or restrained","Very careless","Extremely wealthy","Always angry"],a:0,e:"Kontras dengan “outspoken” menunjukkan reserved berarti tidak banyak bicara atau menahan diri."},
+{q:"In a report, the word “indicates” most nearly means:",o:["Hides","Suggests or shows","Destroys","Questions"],a:1,e:"Dalam konteks laporan, indicates berarti menunjukkan atau memberi petunjuk."},
+{q:"“The trail was arduous; after hours of climbing, the hikers were exhausted.” What does “arduous” mean?",o:["Easy","Difficult and tiring","Short","Crowded"],a:1,e:"Petunjuk “hours of climbing” dan “exhausted” menunjukkan kegiatan yang berat."}]},
+{ id:11,g:9,type:"rw",title:"Inference dan textual evidence",level:"Menengah",desc:"Menyimpulkan sesuatu yang tidak dinyatakan langsung.",goals:["Membuat inferensi yang didukung teks.","Memilih bukti yang paling relevan."],topics:["Inference vs. guess","Textual evidence","Menghindari kesimpulan berlebihan"],practice:"Untuk setiap jawaban inferensi, garis bawahi kalimat yang mendukungnya.",qs:[
+{q:"Passage: “When the doors opened, Amir noticed wet umbrellas and people shaking rain from their coats.” What can be inferred?",o:["It is probably raining outside.","The building has no roof.","Amir dislikes rain.","Everyone arrived by car."],a:0,e:"Payung basah dan mantel yang terkena air mendukung inferensi bahwa hujan turun."},
+{q:"Which evidence best supports the inference that a plant needs little water? ",o:["It has thick leaves that store water.","It grows near a school.","Its flowers are purple.","It was planted on Tuesday."],a:0,e:"Daun tebal yang menyimpan air secara langsung mendukung kebutuhan air yang rendah."},
+{q:"A student rereads a paragraph before answering. This most strongly suggests the student wants to:",o:["Avoid the assignment","Check details for accuracy","Change the topic","Finish without reading"],a:1,e:"Membaca ulang biasanya dilakukan untuk memastikan pemahaman dan ketepatan detail."}]},
+{ id:12,g:9,type:"math",title:"Pertidaksamaan dan sistem persamaan",level:"Menengah",desc:"Memodelkan batas dan hubungan dua variabel.",goals:["Menyelesaikan pertidaksamaan linear.","Memahami solusi sistem persamaan."],topics:["Inequalities and number lines","Sistem dua persamaan","Solusi sebagai titik perpotongan"],practice:"Gambarkan solusi pertidaksamaan pada garis bilangan dan periksa sistem dengan substitusi.",qs:[
+{q:"Solve: 2x + 3 < 11.",o:["x < 4","x > 4","x < 7","x > 7"],a:0,e:"Kurangi 3: 2x < 8. Bagi 2: x < 4."},
+{q:"If x + y = 10 and x = 6, what is y?",o:["4","6","10","16"],a:0,e:"Substitusi x = 6: 6 + y = 10, sehingga y = 4."},
+{q:"Which ordered pair solves y = x + 2 and y = 5?",o:["(2, 5)","(3, 5)","(5, 3)","(5, 5)"],a:1,e:"Jika y = 5, maka 5 = x + 2 sehingga x = 3. Solusinya (3, 5)."}]},
+{ id:13,g:9,type:"math",title:"Fungsi, gradien, dan grafik garis",level:"Menengah",desc:"Memahami hubungan input-output dan perubahan.",goals:["Menghitung nilai fungsi.","Menafsirkan gradien sebagai laju perubahan."],topics:["Notasi f(x)","Slope = perubahan y / perubahan x","Persamaan y = mx + b"],practice:"Gambarkan garis y = 2x + 1 untuk x = −1, 0, 1, 2.",qs:[
+{q:"If f(x) = 2x − 3, what is f(5)?",o:["5","7","10","13"],a:1,e:"f(5) = 2(5) − 3 = 7."},
+{q:"A line rises 6 units when x increases by 2 units. What is its slope?",o:["2","3","4","8"],a:1,e:"Gradien = perubahan y / perubahan x = 6/2 = 3."},
+{q:"In y = 4x + 7, what is the y-intercept?",o:["4","7","11","−7"],a:1,e:"Dalam bentuk y = mx + b, y-intercept adalah b, yaitu 7."}]},
+{ id:14,g:9,type:"rw",title:"Transitions dan struktur kalimat",level:"Menengah",desc:"Menghubungkan ide secara logis dan menghindari kalimat tidak lengkap.",goals:["Memilih transition sesuai hubungan ide.","Mengenali kalimat lengkap dan kesalahan batas kalimat."],topics:["However, therefore, furthermore","Sentence fragments","Run-on sentences dan punctuation dasar"],practice:"Gabungkan pasangan kalimat dengan transition yang menunjukkan hubungan logis.",qs:[
+{q:"The first trial failed. ___, the researchers revised their method.",o:["For example","Therefore","Similarly","Meanwhile"],a:1,e:"Kalimat kedua merupakan akibat atau tindak lanjut dari kegagalan, sehingga “Therefore” sesuai."},
+{q:"Which choice is a complete sentence?",o:["Because the bus was late.","Although the test was difficult.","The team completed the project.","While walking to school."],a:2,e:"Pilihan C memiliki subjek dan predikat serta menyampaikan pikiran lengkap."},
+{q:"Choose the correctly punctuated sentence.",o:["I studied hard, I passed the test.","I studied hard; I passed the test.","I studied hard I passed the test.","I studied, hard; I passed, the test."],a:1,e:"Titik koma dapat menghubungkan dua independent clauses yang berkaitan erat."}]},
+{ id:15,g:9,type:"math",title:"Geometri dan Teorema Pythagoras",level:"Menengah",desc:"Menggunakan hubungan sudut, sisi, luas, dan volume.",goals:["Menghitung sisi segitiga siku-siku.","Menggunakan rumus luas dan keliling."],topics:["Jumlah sudut segitiga","a² + b² = c²","Luas persegi panjang dan segitiga"],practice:"Gambar segitiga siku-siku dan tandai sisi miring sebelum menggunakan rumus.",qs:[
+{q:"A right triangle has legs of 6 and 8. What is the hypotenuse?",o:["10","12","14","16"],a:0,e:"c² = 6² + 8² = 36 + 64 = 100, sehingga c = 10."},
+{q:"A triangle has angles 45° and 65°. What is the third angle?",o:["60°","70°","80°","90°"],a:1,e:"Jumlah sudut segitiga 180°: 180 − 45 − 65 = 70°."},
+{q:"What is the area of a rectangle with length 9 and width 4?",o:["13","26","36","72"],a:2,e:"Luas = panjang × lebar = 9 × 4 = 36 satuan persegi."}]},
+{ id:16,g:9,type:"math",title:"Statistik dan interpretasi data",level:"Menengah",desc:"Membaca data dan meringkas kumpulan nilai.",goals:["Menghitung mean, median, dan range.","Menafsirkan data sederhana."],topics:["Mean, median, mode, range","Tabel dan grafik","Membandingkan kumpulan data"],practice:"Buat kumpulan lima angka sendiri, lalu hitung mean, median, dan range.",qs:[
+{q:"What is the mean of 4, 6, and 8?",o:["4","6","8","18"],a:1,e:"Mean = (4 + 6 + 8)/3 = 18/3 = 6."},
+{q:"What is the median of 2, 5, 7, 9, 12?",o:["5","7","7.5","9"],a:1,e:"Data sudah berurutan; nilai tengah dari lima angka adalah 7."},
+{q:"A chart shows sales rising from 20 units to 30 units. What is the percent increase?",o:["10%","25%","50%","150%"],a:2,e:"Kenaikan 10 dari nilai awal 20: 10/20 × 100% = 50%."}]},
+{ id:17,g:9,type:"rw",title:"Membandingkan teks dan klaim",level:"Menengah",desc:"Mengenali kesamaan, perbedaan, dan dukungan bukti.",goals:["Membandingkan sudut pandang dua teks.","Menilai apakah bukti mendukung klaim."],topics:["Cross-text connections","Claim and evidence","Fakta, opini, dan relevansi bukti"],practice:"Baca dua pendapat tentang topik yang sama dan tulis satu persamaan serta satu perbedaan.",qs:[
+{q:"Text A says city bikes reduce traffic. Text B says bike lanes are useful only when connected to public transit. What do the texts share?",o:["Both discuss urban transportation.","Both oppose bicycles.","Both discuss school uniforms.","Both claim cars should be banned."],a:0,e:"Kedua teks membahas transportasi perkotaan, walau menekankan hal berbeda."},
+{q:"Claim: “The library should extend its hours because students need quiet places to study after school.” Which evidence is most relevant?",o:["A survey shows many students cannot study quietly at home.","The library walls are blue.","A nearby store sells notebooks.","Some students prefer sports."],a:0,e:"Survei tentang kebutuhan tempat belajar tenang secara langsung mendukung alasan klaim."},
+{q:"Which statement is an opinion?",o:["The library opens at 8 a.m.","The room contains 20 desks.","The library is the most welcoming place in town.","The report was published in May."],a:2,e:"“Most welcoming” merupakan penilaian subjektif, sehingga termasuk opini."}]},
+{ id:18,g:9,type:"mixed",title:"Try out penguatan kelas 9",level:"Evaluasi",desc:"Menggabungkan reading, grammar, aljabar, fungsi, dan data.",goals:["Mengukur kesiapan sebelum cakupan SAT penuh.","Memilih topik remedial."],topics:["Inference dan grammar","Sistem persamaan dan fungsi","Statistik dan geometri"],practice:"Kerjakan seluruh soal, kemudian tulis tiga kesalahan yang paling sering muncul.",qs:[
+{q:"The evidence was limited; ___, the researchers avoided a firm conclusion.",o:["however","for instance","similarly","first"],a:0,e:"“However” menunjukkan kontras antara bukti terbatas dan kehati-hatian peneliti."},
+{q:"If y = 3x − 2, what is y when x = 4?",o:["8","10","12","14"],a:1,e:"y = 3(4) − 2 = 10."},
+{q:"A data set is 3, 3, 4, 8, 12. What is its median?",o:["3","4","5","8"],a:1,e:"Nilai tengah dari lima data yang telah diurutkan adalah 4."}]},
+{ id:19,g:10,type:"math",title:"SAT Algebra: linear equations and models",level:"SAT Prep",desc:"Menerapkan persamaan linear dan model dalam konteks.",goals:["Menyelesaikan persamaan linear dengan koefisien rasional.","Membuat model linear dari situasi."],topics:["Linear equations in one variable","Linear models","Menafsirkan koefisien dan konstanta"],practice:"Untuk soal cerita, definisikan variabel, bentuk persamaan, selesaikan, lalu tafsirkan jawaban.",qs:[
+{q:"A gym charges a $15 sign-up fee plus $8 per class. Which expression gives the total cost for c classes?",o:["15c + 8","8c + 15","23c","15(c + 8)"],a:1,e:"Biaya total adalah biaya tetap 15 ditambah 8 untuk setiap kelas: 8c + 15."},
+{q:"Solve: 4(x − 2) = 20.",o:["3","5","7","13"],a:2,e:"Bagi 4: x − 2 = 5, sehingga x = 7."},
+{q:"A line is modeled by y = 12x + 5. What does 12 represent if x is hours and y is dollars earned?",o:["Starting amount only","Earnings per hour","Total hours","A $12 fee"],a:1,e:"Koefisien x adalah perubahan y untuk setiap kenaikan satu unit x, yaitu $12 per jam."}]},
+{ id:20,g:10,type:"math",title:"SAT Advanced Math: quadratics",level:"SAT Prep",desc:"Mengenali dan menyelesaikan persamaan kuadrat.",goals:["Memfaktorkan kuadrat sederhana.","Memahami akar dan bentuk grafik dasar."],topics:["x² + bx + c","Faktorisasi","Akar persamaan kuadrat"],practice:"Periksa akar dengan memasukkannya kembali ke persamaan.",qs:[
+{q:"Which expression factors x² + 5x + 6?",o:["(x + 1)(x + 6)","(x + 2)(x + 3)","(x − 2)(x − 3)","(x + 5)(x + 1)"],a:1,e:"Dua angka yang hasil kalinya 6 dan jumlahnya 5 adalah 2 dan 3."},
+{q:"What are the solutions to x² − 9 = 0?",o:["x = 9 only","x = −9 only","x = −3 or x = 3","x = 0 or x = 9"],a:2,e:"x² = 9, sehingga x = ±3."},
+{q:"If f(x) = x², what is f(−4)?",o:["−16","−8","8","16"],a:3,e:"f(−4) = (−4)² = 16."}]},
+{ id:21,g:10,type:"math",title:"SAT Advanced Math: exponents and functions",level:"SAT Prep",desc:"Menggunakan aturan pangkat dan memahami fungsi.",goals:["Menerapkan aturan pangkat dasar.","Menafsirkan fungsi dan perubahan nilai."],topics:["Product and quotient rules","Exponential expressions","Function notation and transformations"],practice:"Buat tabel input-output untuk fungsi dan jelaskan pola perubahan nilainya.",qs:[
+{q:"Simplify x³ · x⁴.",o:["x⁷","x¹²","2x⁷","x"],a:0,e:"Saat mengalikan pangkat dengan basis sama, jumlahkan eksponen: 3 + 4 = 7."},
+{q:"If f(x) = 2ˣ, what is f(3)?",o:["5","6","8","9"],a:2,e:"f(3) = 2³ = 8."},
+{q:"If g(x) = x + 6, which value of x makes g(x) = 10?",o:["2","4","6","16"],a:1,e:"x + 6 = 10, sehingga x = 4."}]},
+{ id:22,g:10,type:"math",title:"SAT Data Analysis and probability",level:"SAT Prep",desc:"Menganalisis rasio, statistik, sampel, dan peluang.",goals:["Menghitung laju dan persentase perubahan.","Memahami probabilitas dan interpretasi sampel."],topics:["Unit rate and percent change","Mean and data distributions","Basic probability and sampling"],practice:"Jelaskan apa yang menjadi keseluruhan (denominator) sebelum menghitung rasio atau peluang.",qs:[
+{q:"A value increases from 50 to 65. What is the percent increase?",o:["15%","23%","30%","65%"],a:2,e:"Perubahan 15 dibagi nilai awal 50: 15/50 × 100% = 30%."},
+{q:"A bag has 3 red and 5 blue marbles. What is the probability of randomly choosing a red marble?",o:["3/5","3/8","5/8","1/3"],a:1,e:"Ada 3 marmer merah dari total 8, sehingga peluangnya 3/8."},
+{q:"A survey of randomly selected students finds that 60% prefer later school start times. Which conclusion is most reasonable?",o:["Every student prefers later starts.","About 60% of the population represented may prefer later starts, subject to sampling uncertainty.","No student prefers early starts.","The survey proves later starts improve grades."],a:1,e:"Sampel acak dapat memberi perkiraan populasi, tetapi hasilnya memiliki ketidakpastian dan tidak membuktikan sebab-akibat."}]},
+{ id:23,g:10,type:"math",title:"SAT Geometry and trigonometry",level:"SAT Prep",desc:"Menerapkan geometri, lingkaran, dan trigonometri dasar.",goals:["Menggunakan rumus geometri.","Memahami sin, cos, tan pada segitiga siku-siku."],topics:["Circle circumference and area","Right-triangle relationships","sin, cos, tan"],practice:"Gambar segitiga dan tandai opposite, adjacent, serta hypotenuse sebelum memilih rasio trigonometri.",qs:[
+{q:"A circle has radius 3. What is its area?",o:["3π","6π","9π","12π"],a:2,e:"Luas lingkaran = πr² = π(3²) = 9π."},
+{q:"In a right triangle, the side opposite angle θ is 3 and the hypotenuse is 5. What is sin θ?",o:["3/5","4/5","3/4","5/3"],a:0,e:"sin θ = opposite/hypotenuse = 3/5."},
+{q:"A right triangle has legs 5 and 12. What is the hypotenuse?",o:["13","15","17","√119"],a:0,e:"Dengan Pythagoras, c = √(25 + 144) = √169 = 13."}]},
+{ id:24,g:10,type:"rw",title:"SAT Information and Ideas",level:"SAT Prep",desc:"Central ideas, details, inference, dan textual evidence.",goals:["Menentukan klaim utama teks pendek.","Memilih inferensi dan bukti paling kuat."],topics:["Central Ideas and Details","Inferences","Command of Evidence"],practice:"Selesaikan soal dengan membaca pertanyaan dan bukti teks secara cermat; hindari jawaban yang terlalu luas.",qs:[
+{q:"Passage: “After the city added protected bike lanes, bicycle use rose. However, the report notes that fuel prices also increased during the same period.” Which conclusion is best supported?",o:["Bike lanes alone caused all the increase.","Bicycle use rose, but the report does not isolate one cause.","Fuel prices never affect travel.","Bicycle use declined."],a:1,e:"Teks menyebut dua perubahan yang terjadi bersamaan, jadi penyebab tunggal belum dapat dipastikan."},
+{q:"Which evidence would best support the claim that a study method improves recall?",o:["Students using the method remember more items on a later test than a comparison group.","The method has a colorful name.","Some students like the classroom.","The test was held on Tuesday."],a:0,e:"Perbandingan hasil ingatan antara kelompok yang menggunakan metode dan kelompok pembanding langsung relevan."},
+{q:"A passage describes several experiments that produced similar results. What does this most strongly suggest?",o:["The result may be reproducible.","All experiments are identical.","The researchers made no errors.","The result applies to every person in every situation."],a:0,e:"Hasil serupa dari beberapa eksperimen mendukung kemungkinan bahwa temuan dapat direplikasi, tanpa membuktikan klaim universal."}]},
+{ id:25,g:10,type:"rw",title:"SAT Craft and Structure",level:"SAT Prep",desc:"Makna kata, tujuan penulis, dan hubungan antar teks.",goals:["Menentukan makna kata sesuai konteks akademik.","Menganalisis tujuan dan hubungan dua teks."],topics:["Words in Context","Text Structure and Purpose","Cross-Text Connections"],practice:"Untuk kata yang tidak dikenal, baca kalimat sebelum dan sesudahnya sebelum memilih makna.",qs:[
+{q:"“The results were tentative, so the team delayed making a definitive claim.” What does “tentative” most nearly mean?",o:["Certain","Preliminary or uncertain","Unrelated","Permanent"],a:1,e:"Karena tim menunda klaim definitif, tentative berarti sementara atau belum pasti."},
+{q:"An author lists a problem, compares three possible solutions, and then discusses their costs. The main purpose is to:",o:["Entertain with a story","Evaluate possible solutions","Describe a childhood memory","Reject all evidence"],a:1,e:"Struktur tersebut membandingkan pilihan dan biaya untuk mengevaluasi solusi."},
+{q:"Text 1 supports online courses for flexibility. Text 2 argues that online courses require strong self-discipline. How are the texts related?",o:["Text 2 adds a qualification to the benefit in Text 1.","Text 2 proves Text 1 is about sports.","Both reject online learning entirely.","They discuss unrelated subjects."],a:0,e:"Teks kedua menambahkan syarat atau tantangan, bukan sepenuhnya menolak manfaat fleksibilitas."}]},
+{ id:26,g:10,type:"rw",title:"SAT Standard English Conventions",level:"SAT Prep",desc:"Menguasai batas kalimat, grammar, dan punctuation.",goals:["Membedakan independent clauses dan fragments.","Memilih tanda baca dan struktur yang tepat."],topics:["Sentence Boundaries","Form, Structure, and Sense","Commas, semicolons, colons"],practice:"Periksa apakah setiap kalimat memiliki klausa utama dan apakah tanda baca sesuai hubungan antarklausa.",qs:[
+{q:"Choose the correctly punctuated sentence.",o:["The sample was small, the result was uncertain.","The sample was small; the result was uncertain.","The sample was small the result was uncertain.","The sample, was small; the result was uncertain."],a:1,e:"Titik koma menghubungkan dua klausa independen yang berhubungan."},
+{q:"Neither the teacher nor the students ___ aware of the schedule change.",o:["was","were","is","be"],a:1,e:"Pada konstruksi neither...nor, verb umumnya mengikuti subjek terdekat; “students” jamak, jadi “were”."},
+{q:"Which choice correctly completes the sentence? “The experiment ___ three times to confirm the result.”",o:["were repeated","was repeated","have repeat","repeating"],a:1,e:"Subjek “experiment” tunggal dan kalimat pasif lampau: was repeated."}]},
+{ id:27,g:10,type:"rw",title:"SAT Expression of Ideas",level:"SAT Prep",desc:"Memilih transisi dan menyusun informasi untuk tujuan tertentu.",goals:["Memilih transition berdasarkan logika.","Menggabungkan informasi secara ringkas dan tepat."],topics:["Transitions","Rhetorical Synthesis","Organization and precision"],practice:"Tentukan hubungan logis antarkalimat sebelum memilih kata transisi.",qs:[
+{q:"The first method was inexpensive. ___, it produced inconsistent results.",o:["Moreover","However","For example","Therefore"],a:1,e:"Kalimat kedua berlawanan dengan kelebihan biaya murah; “However” menandai kontras."},
+{q:"Notes: Study A included 40 participants; Study B included 200. Goal: emphasize that Study B had the larger sample. Which sentence best meets the goal?",o:["Study A and Study B examined the same topic.","Study B included 200 participants, compared with 40 in Study A.","Both studies were published recently.","Study A included fewer than 500 participants."],a:1,e:"Kalimat tersebut langsung membandingkan ukuran sampel dan menonjolkan jumlah Study B."},
+{q:"Choose the best transition: “The data initially appeared inconsistent. ___, a closer analysis revealed a clear pattern.”",o:["Nevertheless","For instance","Similarly","In addition to"],a:0,e:"“Nevertheless” menunjukkan kontras antara kesan awal dan temuan setelah analisis."}]},
+{ id:28,g:10,type:"mixed",title:"Try out SAT mini: Reading and Writing",level:"Try out",desc:"Latihan gabungan tiga tipe utama Reading and Writing.",goals:["Menerapkan reading, vocabulary, grammar, dan transisi.","Membiasakan diri dengan pilihan jawaban yang mirip."],topics:["Information and Ideas","Craft and Structure","Standard English Conventions and Expression of Ideas"],practice:"Kerjakan tanpa membuka catatan. Setelah itu, baca penjelasan semua jawaban termasuk yang benar.",qs:[
+{q:"“Although the initial findings were promising, the team sought additional evidence before publishing.” Why did the team seek more evidence?",o:["The findings were promising but not yet sufficient for publication.","The team had already published the results.","The findings were unrelated to the study.","The team wanted to remove all data."],a:0,e:"Kata “although” dan “additional evidence” menunjukkan hasil awal menjanjikan tetapi perlu dukungan lebih lanjut."},
+{q:"Choose the best transition: “The first survey had a small sample. ___, the researchers conducted a larger follow-up survey.”",o:["Instead","Consequently","For example","Likewise"],a:1,e:"Survei lanjutan merupakan respons terhadap keterbatasan sampel awal; consequently menunjukkan hubungan hasil/tindak lanjut."},
+{q:"Which sentence is grammatically correct?",o:["The collection of samples were stored safely.","The collection of samples was stored safely.","The collection of samples are stored safely yesterday.","The collection of samples storing safely."],a:1,e:"Subjek utama adalah “collection” yang tunggal; bentuk lampau pasifnya “was stored”."}]},
+{ id:29,g:10,type:"mixed",title:"Try out SAT mini: Math",level:"Try out",desc:"Latihan gabungan aljabar, advanced math, data, dan geometri.",goals:["Memilih strategi matematika yang efisien.","Memeriksa hasil dan satuan."],topics:["Linear models","Quadratics and functions","Data analysis and geometry"],practice:"Tulis langkah perhitungan. Jika salah, identifikasi apakah kesalahan konsep, hitung, atau membaca soal.",qs:[
+{q:"A taxi charges a $4 fee plus $2.50 per mile. What is the cost of a 6-mile ride?",o:["$12","$15","$19","$21"],a:2,e:"Total = 4 + 2.50(6) = 4 + 15 = $19."},
+{q:"If x² = 49, which values can x have?",o:["7 only","−7 only","−7 and 7","0 and 49"],a:2,e:"Baik (−7)² maupun 7² sama dengan 49."},
+{q:"A rectangle has area 48 and width 6. What is its length?",o:["6","8","12","42"],a:1,e:"Panjang = luas ÷ lebar = 48 ÷ 6 = 8."}]},
+{ id:30,g:10,type:"mixed",title:"Try out akhir: kesiapan menuju Digital SAT",level:"Try out",desc:"Evaluasi ringkas lintas keterampilan sebagai dasar rencana kelas 11.",goals:["Menilai kesiapan lintas domain.","Menentukan tiga prioritas belajar sebelum tes resmi."],topics:["Reading and Writing","Algebra and Advanced Math","Data Analysis and Geometry"],practice:"Gunakan hasil ini sebagai pemeriksaan kesiapan, bukan prediksi skor resmi. Pada kelas 11, lanjutkan dengan tes latihan lengkap resmi di Bluebook.",qs:[
+{q:"Passage: “The new irrigation system used less water while maintaining crop yields. The researchers cautioned that results may differ in other climates.” Which statement best reflects the passage?",o:["The system always works everywhere.","The system reduced water use without lowering yields in this study, but results may vary.","The system reduced crop yields.","Climate has no effect on irrigation."],a:1,e:"Jawaban merangkum temuan dan batasan yang dinyatakan teks."},
+{q:"Solve: 5x − 4 = 2x + 11.",o:["3","5","7","15"],a:1,e:"Kurangi 2x: 3x − 4 = 11. Tambah 4: 3x = 15, sehingga x = 5."},
+{q:"A circle's diameter is 10. What is its circumference?",o:["5π","10π","20π","100π"],a:1,e:"Keliling lingkaran = πd = 10π."}]}
+];
+
+const state = {selected:1, grade:"all", type:"all", search:"", answers:{}, submitted:{}, completed:new Set()};
+const $ = s => document.querySelector(s);
+function loadProgress(){try{const x=JSON.parse(localStorage.getItem("satLabProgress")||"{}");state.completed=new Set(x.completed||[]);state.answers=x.answers||{};state.submitted=x.submitted||{};}catch(e){}}
+function saveProgress(){try{localStorage.setItem("satLabProgress",JSON.stringify({completed:[...state.completed],answers:state.answers,submitted:state.submitted}));}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function updateStats(){
+  $("#totalModules").textContent=modules.length;
+  $("#totalQuestions").textContent=modules.reduce((n,m)=>n+m.qs.length,0);
+  $("#completedCount").textContent=state.completed.size;
+  const p=Math.round(state.completed.size/modules.length*100);
+  $("#overallProgress").textContent=p+"%";$("#progressBar").style.width=p+"%";
+  $("#progressText").textContent=state.completed.size===0?"Belum ada modul yang ditandai tuntas.":`${state.completed.size} dari ${modules.length} modul ditandai tuntas.`;
+}
+function renderList(){
+ const filtered=modules.filter(m=>(state.grade==="all"||String(m.g)===state.grade)&&(state.type==="all"||m.type===state.type)&&(m.title+" "+m.desc+" "+m.topics.join(" ")).toLowerCase().includes(state.search.toLowerCase()));
+ $("#listCount").textContent=filtered.length+" modul";
+ $("#moduleList").innerHTML=filtered.map(m=>`<article class="module-card ${state.selected===m.id?"selected":""}" data-id="${m.id}" tabindex="0" role="button" aria-label="Buka ${esc(m.title)}">
+ <span class="tag ${m.type==="math"?"math":m.type==="mixed"?"test":""}">${m.type==="math"?"Math":m.type==="rw"?"Reading & Writing":"Try out"}</span>
+ <h3>${esc(m.title)}</h3><p>${esc(m.desc)}</p>
+ <div class="card-bottom"><span>Kelas ${m.g} · ${esc(m.level)}</span><span>${state.completed.has(m.id)?"✓ Tuntas":"Buka →"}</span></div></article>`).join("")||'<div class="empty">Tidak ada modul yang cocok dengan filter.</div>';
+ document.querySelectorAll(".module-card").forEach(el=>{const open=()=>selectModule(Number(el.dataset.id));el.addEventListener("click",open);el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open();}});});
+}
+function selectModule(id){state.selected=id;renderList();renderDetail();window.scrollTo({top:Math.max(0,$("#moduleDetail").getBoundingClientRect().top+window.scrollY-12),behavior:"smooth"});}
+function renderDetail(){
+ const m=modules.find(x=>x.id===state.selected);if(!m)return;
+ const submitted=!!state.submitted[m.id];
+ const qsHtml=m.qs.map((q,i)=>{
+  const chosen=state.answers[m.id]?.[i];
+  const show=submitted;
+  return `<div class="question" id="q${m.id}_${i}">
+   <div class="qtop"><span>Soal ${i+1} dari ${m.qs.length}</span><span>${m.type==="math"?"Math":m.type==="rw"?"Reading & Writing":"Campuran"}</span></div>
+   <div class="qtext">${esc(q.q)}</div>
+   <div class="options">${q.o.map((o,j)=>`<label class="option ${show&&j===q.a?"correct":show&&chosen===j&&j!==q.a?"wrong":""}">
+    <input type="radio" name="m${m.id}q${i}" value="${j}" ${chosen===j?"checked":""} ${show?"disabled":""}>
+    <span><strong>${"ABCD"[j]}.</strong> ${esc(o)}</span></label>`).join("")}</div>
+   <div class="explanation ${show?"show":""}"><strong>${show?(chosen===q.a?"Benar.":"Pembahasan:"):"Pembahasan muncul setelah jawaban diperiksa."}</strong> ${show?esc(q.e):""}</div>
+  </div>`;
+ }).join("");
+ $("#moduleDetail").innerHTML=`<div class="content-head"><div><span class="pill">Kelas ${m.g} · ${esc(m.level)}</span><h2>${esc(m.title)}</h2><p>${esc(m.desc)}</p></div><span class="tag ${m.type==="math"?"math":m.type==="mixed"?"test":""}">${m.type==="math"?"Math":m.type==="rw"?"Reading & Writing":"Evaluasi"}</span></div>
+ <div class="section"><h3>Target kompetensi</h3><ul class="material-list">${m.goals.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+ <div class="section"><h3>Daftar materi</h3><ul class="material-list">${m.topics.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+ <div class="section"><h3>Latihan mandiri</h3><p>${esc(m.practice)}</p></div>
+ <div class="section"><h3>Simulasi soal</h3><p class="small">Pilih satu jawaban untuk setiap soal. Setelah selesai, tekan “Periksa jawaban” untuk melihat skor dan pembahasan.</p>
+ <div id="quizQuestions">${qsHtml}</div>
+ <div class="quiz-actions">${submitted?`<button class="btn primary" id="retryBtn">Ulangi simulasi</button>`:`<button class="btn primary" id="checkBtn">Periksa jawaban</button>`}<button class="btn light" id="completeBtn">${state.completed.has(m.id)?"✓ Modul sudah tuntas":"Tandai modul tuntas"}</button><button class="btn outline" id="printBtn">Cetak modul</button></div>
+ <div class="result ${submitted?"show":""}" id="quizResult">${submitted?resultHtml(m):""}</div></div>`;
+ $("#quizQuestions").querySelectorAll("input[type=radio]").forEach(inp=>inp.addEventListener("change",e=>{
+  const match=e.target.name.match(/^m(\d+)q(\d+)$/);if(!match)return;
+  const mid=Number(match[1]),qi=Number(match[2]);if(!state.answers[mid])state.answers[mid]={};state.answers[mid][qi]=Number(e.target.value);saveProgress();
+ }));
+ const check=$("#checkBtn");if(check)check.addEventListener("click",()=>submitQuiz(m));
+ const retry=$("#retryBtn");if(retry)retry.addEventListener("click",()=>{delete state.submitted[m.id];delete state.answers[m.id];saveProgress();renderDetail();});
+ $("#completeBtn").addEventListener("click",()=>{if(state.completed.has(m.id))state.completed.delete(m.id);else state.completed.add(m.id);saveProgress();updateStats();renderList();renderDetail();});
+ $("#printBtn").addEventListener("click",()=>window.print());
+}
+function resultHtml(m){
+ const answers=state.answers[m.id]||{};let correct=0,answered=0;
+ m.qs.forEach((q,i)=>{if(answers[i]!==undefined){answered++;if(answers[i]===q.a)correct++;}});
+ const pct=Math.round(correct/m.qs.length*100);
+ return `<strong>${correct} / ${m.qs.length} benar (${pct}%)</strong><p>Terjawab: ${answered} dari ${m.qs.length}. ${pct>=80?"Bagus! Coba jelaskan alasan setiap jawaban untuk memastikan pemahaman.": "Ulangi materi dan pembahasan, lalu coba simulasi sekali lagi."}</p><p class="small">Target belajar yang disarankan: 80% atau lebih sebelum berpindah ke materi berikutnya. Ini target internal pembelajaran, bukan standar resmi SAT.</p>`;
+}
+function submitQuiz(m){
+ const answers=state.answers[m.id]||{};
+ const unanswered=m.qs.length-Object.keys(answers).length;
+ if(unanswered>0&&!confirm(`Masih ada ${unanswered} soal belum dijawab. Periksa jawaban sekarang?`))return;
+ state.submitted[m.id]=true;
+ const n=m.qs.filter((q,i)=>answers[i]===q.a).length;
+ if(n/m.qs.length>=.8)state.completed.add(m.id);
+ saveProgress();updateStats();renderList();renderDetail();
+}
+$("#gradeFilter").addEventListener("change",e=>{state.grade=e.target.value;document.querySelectorAll("[data-quick]").forEach(b=>b.classList.toggle("active",b.dataset.quick===state.grade));renderList();});
+$("#typeFilter").addEventListener("change",e=>{state.type=e.target.value;renderList();});
+$("#searchBox").addEventListener("input",e=>{state.search=e.target.value;renderList();});
+document.querySelectorAll("[data-quick]").forEach(b=>b.addEventListener("click",()=>{state.grade=b.dataset.quick;$("#gradeFilter").value=state.grade;document.querySelectorAll("[data-quick]").forEach(x=>x.classList.toggle("active",x===b));renderList();}));
+$("#resetProgress").addEventListener("click",()=>{if(confirm("Hapus seluruh jawaban, hasil, dan kemajuan yang tersimpan di browser ini?")){state.completed.clear();state.answers={};state.submitted={};saveProgress();updateStats();renderList();renderDetail();}});
+loadProgress();updateStats();renderList();
+</script>
+</body>
+</html>
