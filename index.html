@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAT Prep — Modul Persiapan Kelas 8–10</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📘</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16213E;
+    --paper:#EEF1F6;
+    --paper-2:#FFFFFF;
+    --line: #D8DEEA;
+    --muted:#6B7590;
+    --good:#1E8E6E;
+    --bad:#D1483C;
+    --k8:#2D9596;
+    --k9:#3D5A9E;
+    --k10:#E4972E;
+    --accent: var(--k9);
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.5;
+    min-height:100vh;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',Georgia,serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ---------- Top bar ---------- */
+  header.topbar{
+    background:var(--ink);
+    color:#fff;
+    padding:18px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  header.topbar .brand{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  header.topbar .brand h1{font-size:22px;color:#fff;}
+  header.topbar .brand span{font-size:12.5px;color:#AEB8D6;}
+  nav.levels{display:flex;gap:8px;flex-wrap:wrap;}
+  nav.levels button{
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.28);
+    color:#fff;
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:13.5px;
+    font-weight:600;
+    transition:background .15s, border-color .15s;
+  }
+  nav.levels button.active{
+    background:#fff;
+    color:var(--ink);
+    border-color:#fff;
+  }
+  nav.levels button:hover:not(.active){border-color:#fff;}
+
+  main{max-width:1080px;margin:0 auto;padding:32px 24px 80px;}
+
+  /* ---------- Level header ---------- */
+  .level-hero{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:28px;
+    border-left:6px solid var(--accent);
+    padding-left:18px;
+    flex-wrap:wrap;
+  }
+  .level-hero h2{font-size:30px;}
+  .level-hero p{margin:6px 0 0;color:var(--muted);font-size:14.5px;max-width:520px;}
+  .tryout-cta{
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    border-radius:var(--radius);
+    padding:14px 22px;
+    font-weight:700;
+    font-size:14.5px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:0 6px 16px -6px rgba(0,0,0,0.35);
+  }
+  .tryout-cta small{display:block;font-weight:500;opacity:.85;font-size:12px;}
+
+  /* ---------- Subject columns ---------- */
+  .subjects{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+  }
+  @media (max-width:760px){ .subjects{grid-template-columns:1fr;} }
+  .subject h3{
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--muted);
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    margin-bottom:10px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  .materi-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-left:4px solid var(--accent);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    transition:transform .12s, box-shadow .12s;
+  }
+  .materi-row:hover{transform:translateY(-1px); box-shadow:0 6px 14px -8px rgba(20,30,60,.25);}
+  .materi-row .info{flex:1;}
+  .materi-row .info .t{font-weight:700;font-size:14.5px;}
+  .materi-row .info .d{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .materi-row .stat{
+    font-family:'Fraunces',serif;
+    font-size:20px;
+    font-weight:600;
+    color:var(--accent);
+    min-width:50px;
+    text-align:right;
+  }
+  .materi-row button.go{
+    border:1px solid var(--accent);
+    background:transparent;
+    color:var(--accent);
+    padding:8px 14px;
+    border-radius:6px;
+    font-weight:700;
+    font-size:13px;
+    white-space:nowrap;
+  }
+  .materi-row button.go:hover{background:var(--accent);color:#fff;}
+
+  /* ---------- Quiz view ---------- */
+  .quiz-wrap{max-width:640px;margin:0 auto;}
+  .quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .back-link{background:none;border:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;}
+  .back-link:hover{color:var(--ink);}
+  .progressbar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin:14px 0 26px;}
+  .progressbar > div{height:100%;background:var(--accent);transition:width .25s;}
+  .timer-chip{
+    font-weight:700;font-size:13.5px;
+    background:#fff;border:1px solid var(--line);
+    padding:5px 12px;border-radius:99px;
+  }
+  .timer-chip.warn{color:var(--bad);border-color:var(--bad);}
+  .qcard{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 26px 20px;
+  }
+  .qcard .tag{
+    display:inline-block;
+    font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--accent); margin-bottom:10px;
+  }
+  .qcard .qtext{font-size:18px;line-height:1.55;margin-bottom:20px;}
+  .options .opt{
+    display:flex;align-items:flex-start;gap:12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:13px 15px;
+    margin-bottom:10px;
+    font-size:14.5px;
+    transition:border-color .12s, background .12s;
+  }
+  .options .opt:hover{border-color:var(--accent);}
+  .options .opt.selected{border-color:var(--accent);background:rgba(61,90,158,0.06);}
+  .options .opt.correct{border-color:var(--good);background:rgba(30,142,110,0.09);}
+  .options .opt.incorrect{border-color:var(--bad);background:rgba(209,72,60,0.08);}
+  .options .opt .letter{
+    font-weight:700;font-family:'Fraunces',serif;
+    width:22px;height:22px;border-radius:50%;
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:12.5px;flex:none;
+  }
+  .options .opt.correct .letter{border-color:var(--good);color:var(--good);}
+  .options .opt.incorrect .letter{border-color:var(--bad);color:var(--bad);}
+  .explain{
+    margin-top:6px;padding:14px 16px;
+    background:#F5F6FA;border-radius:8px;
+    font-size:13.5px;color:var(--ink);
+    border-left:3px solid var(--accent);
+  }
+  .quiz-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;}
+  .btn{
+    border:none;border-radius:8px;padding:11px 22px;font-weight:700;font-size:14px;
+    background:var(--accent);color:#fff;
+  }
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);}
+
+  /* ---------- Result view ---------- */
+  .result-wrap{max-width:600px;margin:0 auto;text-align:center;}
+  .score-ring{
+    font-family:'Fraunces',serif;
+    font-size:56px;font-weight:700;color:var(--accent);
+    margin:14px 0 4px;
+  }
+  .result-wrap .sub{color:var(--muted);font-size:14.5px;margin-bottom:26px;}
+  .review-item{
+    text-align:left;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    background:var(--paper-2);
+  }
+  .review-item .qline{font-weight:600;font-size:14px;margin-bottom:6px;}
+  .review-item .badge{
+    display:inline-block;font-size:11px;font-weight:700;
+    padding:2px 9px;border-radius:99px;margin-bottom:8px;
+  }
+  .badge.ok{background:rgba(30,142,110,.12);color:var(--good);}
+  .badge.no{background:rgba(209,72,60,.12);color:var(--bad);}
+  .review-item .explain{margin-top:8px;}
+  .result-actions{display:flex;gap:10px;justify-content:center;margin-top:24px;flex-wrap:wrap;}
+
+  footer{
+    text-align:center;color:var(--muted);font-size:12px;
+    padding:26px;
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <h1>SAT Prep.id</h1>
+    <span>Modul latihan mandiri — non-komersial</span>
+  </div>
+  <nav class="levels" id="levelNav"></nav>
+</header>
+
+<main id="app"></main>
+
+<footer>Dibuat untuk penggunaan belajar pribadi. Progres tersimpan otomatis di peramban ini (localStorage).</footer>
+
+<script src="database.js"></script>
+<script>
+(function(){
+  "use strict";
+  const DB = window.SAT_DB;
+  const app = document.getElementById('app');
+  const levelNav = document.getElementById('levelNav');
+  const STORE_KEY = 'satprep_progress_v1';
+
+  // ---------- Progress storage ----------
+  function loadProgress(){
+    try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }catch(e){ return {}; }
+  }
+  function saveProgress(p){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(p)); }catch(e){}
+  }
+  let progress = loadProgress(); // { materiId: {score,total}, tryoutId: {score,total} }
+
+  // ---------- Router state ----------
+  let state = { levelId: DB.levels[0].id, view: 'dashboard', materiId: null, tryoutId: null };
+
+  function setAccent(color){ document.documentElement.style.setProperty('--accent', color); }
+
+  function renderLevelNav(){
+    levelNav.innerHTML = '';
+    DB.levels.forEach(lv => {
+      const b = document.createElement('button');
+      b.textContent = lv.name;
+      if(lv.id === state.levelId) b.classList.add('active');
+      b.onclick = () => { state.levelId = lv.id; state.view='dashboard'; render(); };
+      levelNav.appendChild(b);
+    });
+  }
+
+  function getLevel(id){ return DB.levels.find(l=>l.id===id); }
+  function findMateri(materiId){
+    for(const lv of DB.levels){
+      for(const sub of lv.subjects){
+        const m = sub.materi.find(x=>x.id===materiId);
+        if(m) return {materi:m, level:lv, subject:sub};
+      }
+    }
+    return null;
+  }
+  function findTryout(id){ return DB.tryout.find(t=>t.id===id); }
+
+  // ---------- Dashboard ----------
+  function renderDashboard(){
+    const lv = getLevel(state.levelId);
+    setAccent(lv.color);
+    const to = DB.tryout.find(t=>t.levelId===lv.id);
+    const toProg = progress[to.id];
+
+    let html = `
+      <div class="level-hero">
+        <div>
+          <h2>${lv.name}</h2>
+          <p>${lv.tagline}</p>
+        </div>
+        <button class="tryout-cta" onclick="__nav('tryoutIntro','${to.id}')">
+          ⏱ Mulai Try Out
+          <small>${toProg ? 'Skor terakhir: '+toProg.score+'/'+toProg.total : to.soal.length+' soal · '+to.durasiMenit+' menit'}</small>
+        </button>
+      </div>
+      <div class="subjects">
+    `;
+    lv.subjects.forEach(sub=>{
+      html += `<div class="subject"><h3>${sub.name}</h3>`;
+      sub.materi.forEach(m=>{
+        const p = progress[m.id];
+        const statTxt = p ? Math.round((p.score/p.total)*100)+'%' : '—';
+        html += `
+          <div class="materi-row">
+            <div class="info">
+              <div class="t">${m.judul}</div>
+              <div class="d">${m.ringkasan}</div>
+            </div>
+            <div class="stat">${statTxt}</div>
+            <button class="go" onclick="__nav('quiz','${m.id}')">${p ? 'Ulangi' : 'Mulai'}</button>
+          </div>`;
+      });
+      html += `</div>`;
+    });
+    html += `</div>`;
+    app.innerHTML = html;
+  }
+
+  // ---------- Quiz engine (dipakai untuk materi & tryout) ----------
+  let quizCtx = null; // { soal[], idx, answers[], title, isTryout, tryoutId, deadline, timerHandle }
+
+  function startQuiz(materiId){
+    const found = findMateri(materiId);
+    if(!found) return;
+    setAccent(found.level.color);
+    quizCtx = {
+      soal: found.materi.soal,
+      idx: 0,
+      answers: new Array(found.materi.soal.length).fill(null),
+      title: found.materi.judul,
+      isTryout:false,
+      backLevel: found.level.id
+    };
+    renderQuiz();
+  }
+
+  function renderTryoutIntro(tryoutId){
+    const to = findTryout(tryoutId);
+    const lv = getLevel(to.levelId);
+    setAccent(lv.color);
+    app.innerHTML = `
+      <div class="quiz-wrap" style="text-align:center;padding-top:20px;">
+        <button class="back-link" onclick="__nav('dashboard')">← Kembali</button>
+        <h2 style="margin-top:14px;">${to.judul}</h2>
+        <p style="color:var(--muted);max-width:440px;margin:14px auto 24px;">
+          Simulasi ini berisi ${to.soal.length} soal campuran Matematika &amp; Reading/Writing dengan batas waktu
+          <strong>${to.durasiMenit} menit</strong>. Waktu akan berjalan mundur dan try out otomatis dikumpulkan saat habis.
+        </p>
+        <button class="btn" onclick="__startTryout('${to.id}')">Mulai Sekarang</button>
+      </div>
+    `;
+  }
+
+  window.__startTryout = function(tryoutId){
+    const to = findTryout(tryoutId);
+    quizCtx = {
+      soal: to.soal,
+      idx: 0,
+      answers: new Array(to.soal.length).fill(null),
+      title: to.judul,
+      isTryout: true,
+      tryoutId: to.id,
+      backLevel: to.levelId,
+      deadline: Date.now() + to.durasiMenit*60000
+    };
+    renderQuiz();
+    startTimerLoop();
+  };
+
+  function startTimerLoop(){
+    clearInterval(quizCtx.timerHandle);
+    quizCtx.timerHandle = setInterval(()=>{
+      if(!quizCtx || !quizCtx.isTryout) { clearInterval(quizCtx && quizCtx.timerHandle); return; }
+      const remain = quizCtx.deadline - Date.now();
+      const chip = document.getElementById('timerChip');
+      if(remain <= 0){
+        clearInterval(quizCtx.timerHandle);
+        finishQuiz(); // auto-submit
+        return;
+      }
+      if(chip){
+        const m = Math.floor(remain/60000), s = Math.floor((remain%60000)/1000);
+        chip.textContent = `⏱ ${m}:${s.toString().padStart(2,'0')}`;
+        chip.classList.toggle('warn', remain < 60000);
+      }
+    }, 500);
+  }
+
+  function renderQuiz(){
+    const q = quizCtx.soal[quizCtx.idx];
+    const chosen = quizCtx.answers[quizCtx.idx];
+    const answered = chosen !== null;
+    const pct = Math.round((quizCtx.idx/quizCtx.soal.length)*100);
+
+    let optsHtml = '';
+    q.o.forEach((opt,i)=>{
+      let cls = 'opt';
+      if(answered){
+        if(i === q.a) cls += ' correct';
+        else if(i === chosen) cls += ' incorrect';
+      } else if(chosen===i){ cls += ' selected'; }
+      optsHtml += `
+        <div class="${cls}" onclick="__choose(${i})">
+          <span class="letter">${String.fromCharCode(65+i)}</span>
+          <span>${opt}</span>
+        </div>`;
+    });
+
+    app.innerHTML = `
+      <div class="quiz-wrap">
+        <div class="quiz-top">
+          <button class="back-link" onclick="__confirmExit()">← Keluar</button>
+          ${quizCtx.isTryout ? `<span class="timer-chip" id="timerChip">⏱ --:--</span>` : `<span style="font-size:13px;color:var(--muted);">${quizCtx.title}</span>`}
+        </div>
+        <div class="progressbar"><div style="width:${pct}%"></div></div>
+        <div class="qcard">
+          ${q.tag ? `<span class="tag">${q.tag} · Soal ${quizCtx.idx+1}/${quizCtx.soal.length}</span>` : `<span class="tag">Soal ${quizCtx.idx+1}/${quizCtx.soal.length}</span>`}
+          <div class="qtext">${q.q}</div>
+          <div class="options">${optsHtml}</div>
+          ${answered ? `<div class="explain"><strong>Pembahasan:</strong> ${q.e}</div>` : ''}
+        </div>
+        <div class="quiz-actions">
+          <button class="btn ghost" id="prevBtn" ${quizCtx.idx===0?'disabled':''} onclick="__prevQ()">Sebelumnya</button>
+          <button class="btn" id="nextBtn" ${answered?'':'disabled'} onclick="__nextQ()">
+            ${quizCtx.idx===quizCtx.soal.length-1 ? 'Lihat Hasil' : 'Selanjutnya'}
+          </button>
+        </div>
+      </div>
+    `;
+    if(quizCtx.isTryout && quizCtx.deadline){
+      const remain = quizCtx.deadline - Date.now();
+      const m = Math.max(0,Math.floor(remain/60000)), s = Math.max(0,Math.floor((remain%60000)/1000));
+      document.getElementById('timerChip').textContent = `⏱ ${m}:${s.toString().padStart(2,'0')}`;
+    }
+  }
+
+  window.__choose = function(i){
+    if(quizCtx.answers[quizCtx.idx] !== null) return; // sudah dijawab, kunci pilihan
+    quizCtx.answers[quizCtx.idx] = i;
+    renderQuiz();
+  };
+  window.__nextQ = function(){
+    if(quizCtx.idx < quizCtx.soal.length-1){ quizCtx.idx++; renderQuiz(); }
+    else { finishQuiz(); }
+  };
+  window.__prevQ = function(){
+    if(quizCtx.idx>0){ quizCtx.idx--; renderQuiz(); }
+  };
+  window.__confirmExit = function(){
+    if(confirm('Keluar dari sesi ini? Jawaban yang belum selesai tidak akan disimpan.')){
+      clearInterval(quizCtx && quizCtx.timerHandle);
+      state.view='dashboard';
+      render();
+    }
+  };
+
+  function finishQuiz(){
+    clearInterval(quizCtx.timerHandle);
+    let score = 0;
+    quizCtx.soal.forEach((q,i)=>{ if(quizCtx.answers[i]===q.a) score++; });
+    const key = quizCtx.isTryout ? quizCtx.tryoutId : findMateriIdFromTitle();
+    // simpan progres
+    const idToSave = quizCtx.isTryout ? quizCtx.tryoutId : quizCtx.materiIdRef;
+    progress[idToSave] = { score, total: quizCtx.soal.length };
+    saveProgress(progress);
+    renderResult(score);
+  }
+  // simpan referensi materiId saat startQuiz supaya finishQuiz tahu id-nya
+  const _origStartQuiz = startQuiz;
+  startQuiz = function(materiId){
+    _origStartQuiz(materiId);
+    quizCtx.materiIdRef = materiId;
+  };
+
+  function renderResult(score){
+    const total = quizCtx.soal.length;
+    const pct = Math.round((score/total)*100);
+    let reviewHtml = '';
+    quizCtx.soal.forEach((q,i)=>{
+      const correct = quizCtx.answers[i] === q.a;
+      reviewHtml += `
+        <div class="review-item">
+          <span class="badge ${correct?'ok':'no'}">${correct?'Benar':'Salah'}</span>
+          <div class="qline">${i+1}. ${q.q}</div>
+          <div style="font-size:13.5px;">Jawabanmu: <strong>${quizCtx.answers[i]===null? '(tidak dijawab)' : q.o[quizCtx.answers[i]]}</strong>
+          ${!correct? ' · Kunci: <strong>'+q.o[q.a]+'</strong>' : ''}</div>
+          <div class="explain">${q.e}</div>
+        </div>`;
+    });
+    app.innerHTML = `
+      <div class="result-wrap">
+        <div style="font-size:13px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">${quizCtx.title} · Selesai</div>
+        <div class="score-ring">${score}/${total}</div>
+        <div class="sub">Skor ${pct}% ${pct>=70 ? '— mantap, lanjutkan ke materi berikutnya!' : '— coba pelajari ulang pembahasan di bawah.'}</div>
+        <div class="result-actions">
+          <button class="btn ghost" onclick="__nav('dashboard')">Kembali ke Dashboard</button>
+          <button class="btn" onclick="__retry()">Ulangi</button>
+        </div>
+        <div style="margin-top:30px;text-align:left;">${reviewHtml}</div>
+        <div class="result-actions">
+          <button class="btn ghost" onclick="__nav('dashboard')">Kembali ke Dashboard</button>
+        </div>
+      </div>
+    `;
+  }
+
+  window.__retry = function(){
+    if(quizCtx.isTryout){ window.__startTryout(quizCtx.tryoutId); }
+    else { startQuiz(quizCtx.materiIdRef); }
+  };
+
+  // ---------- Global nav helper ----------
+  window.__nav = function(view, id){
+    if(view==='dashboard'){ state.view='dashboard'; render(); }
+    else if(view==='quiz'){ startQuiz(id); }
+    else if(view==='tryoutIntro'){ renderTryoutIntro(id); }
+  };
+
+  function findMateriIdFromTitle(){ return quizCtx.materiIdRef; }
+
+  function render(){
+    renderLevelNav();
+    if(state.view==='dashboard') renderDashboard();
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
